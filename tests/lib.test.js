@@ -34,3 +34,15 @@ describe('greet', () => {
     });
 });
 
+//Group all related tests for testing arrays.
+describe('getCurrencies', () => {
+    it('should return suported currencies', () => {
+        const result = lib.getCurrencies();
+        /* expect(result).toContain('USD');
+        expect(result).toContain('AUD');
+        expect(result).toContain('EUR'); */
+        //Better approach:
+        expect(result).toEqual(expect.arrayContaining(['USD', 'AUD', 'EUR']))
+    });
+});
+
