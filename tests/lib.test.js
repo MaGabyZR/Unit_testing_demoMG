@@ -25,3 +25,12 @@ describe('absolute', () => {
     });
 });
 
+//Group all related tests for testing strings.
+describe('greet', () => {
+    it('should return the greeting message', () => {
+        const result = lib.greet('MaGaby');
+        expect(result).toMatch(/MaGaby/);       //Use a regular expresion.
+        expect(result).toContain('MaGaby');     //Use another matcher.
+    });
+});
+
