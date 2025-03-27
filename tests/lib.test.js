@@ -56,3 +56,19 @@ describe('getProduct', () => {
     });
 });
 
+//Group all related tests for testing exceptions. Jest doesn´t 
+describe('registerUser', () => {
+    it('should throw if user name is falsy', () => {
+         //Null, Undefined, NaN, '', 0, false
+         //A better approach is to use a parameterized test. Without Jest:
+         const args = [null, undefined, NaN, '', 0, false];
+         args.forEach(a => {
+            expect(() => { lib.registerUser(null) }).toThrow();
+         });       
+    });
+    it('should return a user object if valid username is passed', () => {
+        const result = lib.registerUser('gaby');
+        expect(result).toMatchObject({ username: 'gaby'});
+        expect(result.id).toBeGreaterThan(0);
+    });
+});
