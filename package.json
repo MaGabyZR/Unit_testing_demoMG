@@ -10,7 +10,7 @@
     "testing-demo": "file:"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --watchAll"
   },
   "keywords": [],
   "author": "",
