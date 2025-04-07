@@ -1,4 +1,5 @@
 const lib = require('../lib');
+const db = require('../db');
 
 /* test('Our first test', () => {
   //throw new Error('Something failed miserably!');         //To produce an error and fail the test. 
@@ -70,5 +71,20 @@ describe('registerUser', () => {
         const result = lib.registerUser('gaby');
         expect(result).toMatchObject({ username: 'gaby'});
         expect(result.id).toBeGreaterThan(0);
+    });
+});
+
+//Group all related tests for testing outside resources, like a db, with a mock function.
+describe('applyDiscount', () => {
+    it('should apply 10% discount if customer has more than 10 points', () =>{
+        //set the db function, to a new function that doesn´t talk to an external resource, in this case a database.
+        db.getCustomerSync = function(customerId) {
+            console.log('Fake reading customer from a db...');
+            return { id: customerId, points: 20 };
+        }
+        
+        const order = { customerId: 1, totalPrice: 10 };
+        lib.applyDiscount(order);
+        expect(order.totalPrice).toBe(9);
     });
 });

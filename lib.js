@@ -39,7 +39,7 @@ module.exports.applyDiscount = function(order) {
     order.totalPrice *= 0.9; 
 }
 
-// Mock functions 
+// Mock functions.
 module.exports.notifyCustomer = function(order) { 
   const customer = db.getCustomerSync(order.customerId);
 
