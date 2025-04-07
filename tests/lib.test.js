@@ -1,5 +1,6 @@
 const lib = require('../lib');
 const db = require('../db');
+const mail = require('../mail');
 
 /* test('Our first test', () => {
   //throw new Error('Something failed miserably!');         //To produce an error and fail the test. 
@@ -76,7 +77,7 @@ describe('registerUser', () => {
 
 //Group all related tests for testing outside resources, like a db, with a mock function.
 describe('applyDiscount', () => {
-    it('should apply 10% discount if customer has more than 10 points', () =>{
+    it('should apply 10% discount if customer has more than 10 points', () => {
         //set the db function, to a new function that doesn´t talk to an external resource, in this case a database.
         db.getCustomerSync = function(customerId) {
             console.log('Fake reading customer from a db...');
@@ -86,5 +87,36 @@ describe('applyDiscount', () => {
         const order = { customerId: 1, totalPrice: 10 };
         lib.applyDiscount(order);
         expect(order.totalPrice).toBe(9);
+    });
+});
+
+//Group all related tests for a mock function, with Integration Testing.
+describe('notifyCustomer', () => {
+    it('should send an email to the customer', () => {
+        //use jest mock functions as a better approach.
+        db.getCustomerSync = jest.fn().mockReturnValue({ email: 'a'});
+        mail.send = jest.fn();
+
+        lib.notifyCustomer({ customerId: 1 });
+
+        expect(mail.send).toHaveBeenCalled();
+        expect(mail.send.mock.calls[0][0]).toBe('a');
+        expect(mail.send.mock.calls[0][1]).toMatch(/order/);
+
+
+/*         //replace the real implementation of the object from the db with a mock function.
+        db.getCustomerSync = function(customerId){
+            return{ email: 'a'};
+        }
+
+        let mailSent = false;
+        mail.send = function(email, message){
+            mailSent = true;
+        }
+
+        lib.notifyCustomer({ customerId: 1 });
+
+        expect(mailSent).toBe(true); */
+
     });
 });

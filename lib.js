@@ -39,7 +39,7 @@ module.exports.applyDiscount = function(order) {
     order.totalPrice *= 0.9; 
 }
 
-// Mock functions.
+// Mock functions, this is replaced with a mock function in lib.test.js So you do not call any db.
 module.exports.notifyCustomer = function(order) { 
   const customer = db.getCustomerSync(order.customerId);
 
